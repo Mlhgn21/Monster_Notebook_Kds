@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satış Analizleri</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* Grafiklerin düzenini 2x2 yapmak için CSS Grid */
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);  /* 2 sütun */
+            gap: 20px; /* Aralarındaki boşluk */
+            margin-top: 20px;
+        }
+
+        /* Her bir grafiğin stili */
+        .chart {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        /* Grafik Başlıkları */
+        h2 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        /* Yıl ve Şehir Seçimi Stil */
+        select {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Satış Analizleri</h1>
+    </header>
+    <main>
+        <!-- Grafiklerin düzenini 2x2 yapmak -->
+        <div class="charts-container">
+            <!-- Grafik 1: Şehir Bazlı Satışlar -->
+            <section class="chart">
+                <h2>Şehir Bazlı Satışlar</h2>
+                <canvas id="citySalesChart"></canvas>
+            </section>
+
+            <!-- Grafik 2: Yıllık Satışlar -->
+            <section class="chart">
+                <h2>Yıllık Satışlar</h2>
+                <canvas id="yearlySalesChart"></canvas>
+            </section>
+
+            <!-- Grafik 3: Kampanya Satışları -->
+            <section class="chart">
+                <h2>Kampanya Satışları</h2>
+                <label for="campaignSelect">Kampanya Seçin:</label>
+                <select id="campaignSelect">
+                    <option value="2020 Kış Tatili Kampanyası">2020 Kış Tatili Kampanyası</option>
+                    <option value="2020 Yaz Tatili Kampanyası">2020 Yaz Tatili Kampanyası</option>
+                    <option value="2021 Kış Tatili Kampanyası">2021 Kış Tatili Kampanyası</option>
+                    <option value="2021 Yaz Tatili Kampanyası">2021 Yaz Tatili Kampanyası</option>
+                    <option value="2022 Kış Tatili Kampanyası">2022 Kış Tatili Kampanyası</option>
+                    <option value="2022 Yaz Tatili Kampanyası">2022 Yaz Tatili Kampanyası</option>
+                    <option value="2023 Kış Tatili Kampanyası">2023 Kış Tatili Kampanyası</option>
+                    <option value="2023 Yaz Tatili Kampanyası">2023 Yaz Tatili Kampanyası</option>
+                    <option value="2024 Kış Tatili Kampanyası">2024 Kış Tatili Kampanyası</option>
+                    <option value="2024 Yaz Tatili Kampanyası">2024 Yaz Tatili Kampanyası</option>
+                </select>
+                <label for="campaignYearSelect">Yıl Seçin:</label>
+                <select id="campaignYearSelect">
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                </select>
+                <canvas id="campaignSalesChart"></canvas>
+            </section>
+
+            <!-- Grafik 4: Yıl Bazında Ürün Satışları -->
+            <section class="chart">
+                <h2>Yıl Bazında Ürün Satışları</h2>
+                <label for="productYearSelect">Yıl Seçin:</label>
+                <select id="productYearSelect">
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                </select>
+                <canvas id="productSalesChart"></canvas>
+            </section>
+
+            <!-- Grafik 6: Şehir Bazlı Toplam Satışlar (Yeni Grafik) -->
+            <section class="chart">
+                <h2>Şehir Bazlı Toplam Satışlar</h2>
+                <label for="totalSalesCitySelect">Şehir Seçin:</label>
+                <select id="totalSalesCitySelect">
+                    <option value="İzmir">İzmir</option>
+                    <option value="Denizli">Denizli</option>
+                    <option value="Afyonkarahisar">Afyonkarahisar</option>
+                    <option value="Aydın">Aydın</option>
+                    <option value="Manisa">Manisa</option>
+                    <option value="Muğla">Muğla</option>
+                    <option value="Kütahya">Kütahya</option>
+                    <option value="Uşak">Uşak</option>
+                </select>
+
+                <label for="totalSalesYearSelect">Yıl Seçin:</label>
+                <select id="totalSalesYearSelect">
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                </select>
+
+                <label for="totalSalesMonthSelect">Ay Seçin:</label>
+                <select id="totalSalesMonthSelect">
+                    <option value="1">Ocak</option>
+                    <option value="2">Şubat</option>
+                    <option value="3">Mart</option>
+                    <option value="4">Nisan</option>
+                    <option value="5">Mayıs</option>
+                    <option value="6">Haziran</option>
+                    <option value="7">Temmuz</option>
+                    <option value="8">Ağustos</option>
+                    <option value="9">Eylül</option>
+                    <option value="10">Ekim</option>
+                    <option value="11">Kasım</option>
+                    <option value="12">Aralık</option>
+                </select>
+
+                <button id="loadTotalSalesButton">Verileri Yükle</button>
+
+                <canvas id="totalSalesChart"></canvas>
+            </section>
+        </div>
+    </main>
+
+    <script src="js/sales.js"></script>
+</body>
+</html>

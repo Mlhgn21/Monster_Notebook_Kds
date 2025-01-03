@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster DSS - Ana Sayfa</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+            <div class="navbar-left">
+                <img src="images/monster-logo.png" alt="Monster Logo" class="logo">
+                <h1>Monster DSS</h1>
+            </div>
+            <ul class="navbar-right">
+                <li><a href="dashboard.html" class="navbar-link active">Anasayfa</a></li>
+                <li><a href="sales-analysis.html" class="navbar-link">Satış Analizleri</a></li>
+                <li><a href="service-analysis.html" class="navbar-link">Teknik Servis Analizleri</a></li>
+                <li><a href="forecasting.html" class="navbar-link">Tahminlemeler</a></li> <!-- Yeni Tahminlemeler Sayfası Bağlantısı -->
+                <li><button class="btn-logout" onclick="logout()">Çıkış Yap</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Ana İçerik -->
+    <main>
+        <h2>Veri Görselleştirme</h2>
+        <div class="charts-container">
+            <div class="chart"><h3>Teknik Servis Talepleri</h3><canvas id="serviceChart"></canvas></div>
+            <div class="chart"><h3>Yıllık Satış Verileri</h3><canvas id="annualSalesChart"></canvas></div>
+            <div class="chart"><h3>En Çok Satılan Ürünler</h3><canvas id="topProductsChart"></canvas></div>
+            <div class="chart"><h3>En Az Satılan Ürünler</h3><canvas id="leastProductsChart"></canvas></div>
+        </div>
+    </main>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

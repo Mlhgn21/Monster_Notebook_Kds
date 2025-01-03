@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tahminlemeler</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="navbar-left">
+                <img src="images/monster-logo.png" alt="Monster Logo" class="logo">
+                <h1>Tahminlemeler</h1>
+            </div>
+            <ul class="navbar-right">
+                <li><a href="dashboard.html" class="navbar-link">Anasayfa</a></li>
+                <li><a href="sales-analysis.html" class="navbar-link">Satış Analizleri</a></li>
+                <li><a href="service-analysis.html" class="navbar-link">Teknik Servis Analizleri</a></li>
+                <li><a href="forecasting.html" class="navbar-link active">Tahminlemeler</a></li>
+                <li><button class="btn-logout" onclick="logout()">Çıkış Yap</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Tahminleme Formu ve Grafikleri -->
+    <main>
+        <h2>Satış Tahminlemesi</h2>
+        <div class="form-container">
+            <label for="dollarInput">Dolar Miktarını Girin:</label>
+            <input type="number" id="dollarInput" placeholder="Dolar Miktarı" />
+
+            <button id="predictSalesButton">Satış Tahmini Yap</button>
+        </div>
+
+        <div class="charts-container">
+            <div class="chart">
+                <h3>Satış Tahminleri (2025 vs 2024)</h3>
+                <canvas id="forecastSalesChart"></canvas>
+            </div>
+        </div>
+
+        <h2>Teknik Servis Tahminlemesi</h2>
+        <div class="form-container">
+            <label for="citySelect">Şehir Seçin:</label>
+            <select id="citySelect">
+                <option value="1">İzmir</option>
+                <option value="2">Manisa</option>
+                <option value="3">Muğla</option>
+                <option value="4">Kütahya</option>
+                <option value="5">Aydın</option>
+                <option value="6">Afyonkarahisar</option>
+                <option value="7">Uşak</option>
+                <option value="8">Denizli</option>
+            </select>
+
+            <button id="predictServiceButton">Teknik Servis Tahmini Yap</button>
+        </div>
+
+        <div class="charts-container">
+            <div class="chart">
+                <h3>Teknik Servis Talepleri (2025 vs 2024)</h3>
+                <canvas id="forecastServiceChart"></canvas>
+            </div>
+        </div>
+        
+    </main>
+
+    <script src="js/forecasting.js"></script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster DSS - Raporlar</title>
+    <link rel="stylesheet" href="css/reports.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+            <div class="navbar-left">
+                <img src="images/monster-logo.png" alt="Monster Logo" class="logo">
+                <h1 class="navbar-title">Monster DSS</h1>
+            </div>
+            <ul class="navbar-right">
+                <li><a href="dashboard.html" class="navbar-link">Ana Sayfa</a></li>
+                <li><a href="reports.html" class="navbar-link active">Raporlar</a></li>
+                <li><button class="btn-logout" onclick="logout()">Çıkış Yap</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Ana İçerik -->
+    <main>
+        <h2>Raporlar</h2>
+        <p>Lütfen bir rapor türü seçin:</p>
+        <div class="report-options">
+            <button class="report-btn" onclick="showAnalysis('servis')">Teknik Servis Analizleri</button>
+            <button class="report-btn" onclick="showAnalysis('satis')">Satış Analizleri</button>
+            <button class="report-btn" onclick="showAnalysis('kampanya')">Kampanya Analizleri</button>
+        </div>
+
+        <div id="report-content">
+            <!-- Seçilen rapor burada yüklenecek -->
+        </div>
+    </main>
+
+    <script>
+        function logout() {
+            alert("Çıkış yapılıyor...");
+            window.location.href = "index.html";
+        }
+
+        function showAnalysis(type) {
+            const content = document.getElementById("report-content");
+            content.innerHTML = ""; // Önce içeriği temizle
+
+            if (type === "servis") {
+                content.innerHTML = `
+                    <h3>Teknik Servis Analizleri</h3>
+                    <p>Her şehirdeki yıllık teknik servis taleplerini analiz edin.</p>
+                    <canvas id="serviceChart"></canvas>
+                `;
+                loadServiceAnalysis();
+            } else if (type === "satis") {
+                content.innerHTML = `
+                    <h3>Satış Analizleri</h3>
+                    <p>Yıllık satış performansını ve en çok/az satılan ürünleri analiz edin.</p>
+                    <canvas id="salesChart"></canvas>
+                `;
+                loadSalesAnalysis();
+            } else if (type === "kampanya") {
+                content.innerHTML = `
+                    <h3>Kampanya Analizleri</h3>
+                    <p>Karne günleri için kampanya önerileri ve satış analizlerini görüntüleyin.</p>
+                    <canvas id="campaignChart"></canvas>
+                `;
+                loadCampaignAnalysis();
+            }
+        }
+
+        async function loadServiceAnalysis() {
+            const response = await fetch("/api/service-analysis");
+            const data = await response.json();
+
+            const labels = data.map(item => `${item.sehir_adi} (${item.yil})`);
+            const values = data.map(item => item.toplam_talep);
+
+            renderChart("serviceChart", "bar", "Teknik Servis Talepleri", labels, values);
+        }
+
+        async function loadSalesAnalysis() {
+            const response = await fetch("/api/annual-sales");
+            const data = await response.json();
+
+            const labels = data.map(item => item.yil);
+            const values = data.map(item => item.toplam_satis);
+
+            renderChart("salesChart", "line", "Yıllık Satış Verileri", labels, values);
+        }
+
+        async function loadCampaignAnalysis() {
+            const response = await fetch("/api/campaign-analysis");
+            const data = await response.json();
+
+            const labels = data.map(item => `${item.urun_adi} (${item.donem_adi})`);
+            const values = data.map(item => item.toplam_satis);
+
+            renderChart("campaignChart", "pie", "Kampanya Satış Analizleri", labels, values);
+        }
+
+        function renderChart(canvasId, type, title, labels, values) {
+            const canvas = document.getElementById(canvasId);
+            new Chart(canvas, {
+                type: type,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: title,
+                        data: values,
+                        backgroundColor: [
+                            "rgba(75, 192, 192, 0.5)",
+                            "rgba(255, 99, 132, 0.5)",
+                            "rgba(54, 162, 235, 0.5)"
+                        ],
+                        borderColor: [
+                            "rgba(75, 192, 192, 1)",
+                            "rgba(255, 99, 132, 1)",
+                            "rgba(54, 162, 235, 1)"
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: true, position: "top" }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

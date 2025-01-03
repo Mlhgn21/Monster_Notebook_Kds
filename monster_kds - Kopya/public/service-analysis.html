@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teknik Servis Analizleri</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <style>
+        /* Grafiklerin düzenini 2x2 yapmak için CSS Grid */
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);  /* 2 sütun */
+            gap: 20px; /* Aralarındaki boşluk */
+            margin-top: 20px;
+        }
+
+        /* Her bir grafiğin stili */
+        .chart {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #map {
+            height: 500px;
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        /* Grafik Başlıkları */
+        h2 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        /* Yıl ve Şehir Seçimi Stil */
+        select {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Teknik Servis Analizleri</h1>
+    </header>
+    <main>
+        <!-- Grafiklerin düzenini 2x2 yapmak -->
+        <div class="charts-container">
+            <!-- Grafik 1: Şehir Bazlı Teknik Servis Talepleri -->
+            <section>
+                <h2>Şehir Bazlı Teknik Servis Talepleri</h2>
+                <canvas id="cityServiceChart"></canvas>
+            </section>
+
+            <!-- Grafik 2: Yıllık Teknik Servis Talepleri -->
+            <section>
+                <h2>Yıllık Teknik Servis Talepleri</h2>
+                <canvas id="yearlyServiceChart"></canvas>
+            </section>
+
+            <!-- Grafik 3: Şehirlerin Yıllık Teknik Servis Talepleri -->
+            <section>
+                <h2>Şehirlerin Yıllık Teknik Servis Talepleri</h2>
+                <label for="cityYearSelect">Yıl Seçin:</label>
+                <select id="cityYearSelect">
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024" selected>2024</option>
+                </select>
+                <canvas id="newChart1"></canvas>
+            </section>
+
+            <!-- Grafik 4: İlçelerin Talepleri (Şehir ve Yıl Seçimi) -->
+            <section>
+                <h2>Şehir ve Yıl Seçimiyle İlçelerin Talepleri</h2>
+                <label for="citySelect">Şehir Seçin:</label>
+                <select id="citySelect">
+                    <option value="İzmir">İzmir</option>
+                    <option value="Denizli">Denizli</option>
+                    <option value="Afyonkarahisar">Afyonkarahisar</option>
+                    <option value="Aydın">Aydın</option>
+                    <option value="Manisa">Manisa</option>
+                    <option value="Muğla">Muğla</option>
+                    <option value="Kütahya">Kütahya</option>
+                    <option value="Uşak">Uşak</option>
+                </select>
+                
+                <label for="districtYearSelect">Yıl Seçin:</label>
+                <select id="districtYearSelect">
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024" selected>2024</option>
+                </select>
+                <canvas id="newChart2"></canvas>
+            </section>
+
+            <!-- Grafik 5: Dönemsel Teknik Servis Talepleri (Çeyrekler) -->
+            <section>
+                <h2>Dönemsel Teknik Servis Talepleri</h2>
+                <label for="periodCitySelect">Şehir Seçin:</label>
+                <select id="periodCitySelect">
+                    <option value="İzmir">İzmir</option>
+                    <option value="Denizli">Denizli</option>
+                    <option value="Afyonkarahisar">Afyonkarahisar</option>
+                    <option value="Aydın">Aydın</option>
+                    <option value="Manisa">Manisa</option>
+                    <option value="Muğla">Muğla</option>
+                    <option value="Kütahya">Kütahya</option>
+                    <option value="Uşak">Uşak</option>
+                </select>
+                
+                <label for="periodYearSelect">Yıl Seçin:</label>
+                <select id="periodYearSelect">
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024" selected>2024</option>
+                </select>
+                <canvas id="periodChart"></canvas>
+            </section>
+        </div>
+    </main>
+    <script src="js/service.js"></script>
+</body>
+</html>
